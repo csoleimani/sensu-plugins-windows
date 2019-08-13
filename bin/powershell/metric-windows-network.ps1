@@ -50,26 +50,24 @@ for($i = 0; $i -lt $Interfaces.Count; $i+=1) {
 foreach ($ObjNet in (Get-Counter -Counter "\$localizedCategoryName(*)\*").CounterSamples) 
 { 
 
-  if ($Interfaces.Contains($ObjNet.InstanceName)) {
 
-     $Measurement = ($ObjNet.Path).Trim("\\") -replace "\\","." -replace " ","_" -replace "[(]","." -replace "[)]","" -replace "[\{\}]","" -replace "[\[\]]",""
+   $Measurement = ($ObjNet.Path).Trim("\\") -replace "\\","." -replace " ","_" -replace "[(]","." -replace "[)]","" -replace "[\{\}]","" -replace "[\[\]]",""
 
-	 $Measurement = $Measurement.Remove(0,$Measurement.IndexOf("."))   
-	 $Path = $Hostname+$Measurement
+ $Measurement = $Measurement.Remove(0,$Measurement.IndexOf("."))   
+ $Path = $Hostname+$Measurement
 
-     $Path = $Path.Replace("/s","_per_second")
-     $Path = $Path.Replace(":","")
-     $Path = $Path.Replace(",","")
-     $Path = $Path.Replace("ä","ae")
-     $Path = $Path.Replace("ö","oe")
-     $Path = $Path.Replace("ü","ue")
-	 $Path = $Path.Replace("ß","ss")
+   $Path = $Path.Replace("/s","_per_second")
+   $Path = $Path.Replace(":","")
+   $Path = $Path.Replace(",","")
+   $Path = $Path.Replace("ä","ae")
+   $Path = $Path.Replace("ö","oe")
+   $Path = $Path.Replace("ü","ue")
+$Path = $Path.Replace("ß","ss")
 
-     $Value = [System.Math]::Round(($ObjNet.CookedValue),0)
-     $Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
+   $Value = [System.Math]::Round(($ObjNet.CookedValue),0)
+   $Time = DateTimeToUnixTimestamp -DateTime (Get-Date)
 
-     Write-Host "$Path $Value $Time"
+   Write-Host "$Path $Value $Time"
 
-   }
 
 }
